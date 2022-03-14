@@ -37,6 +37,7 @@ export default async function handle(
     const fileId = await saveFile(file.file as fFile);
     res.json(fileId);
   } catch (e: any) {
+    console.log(e);
     res.status(e.httpCode || 500).end();
   }
   res.status(500).end();
@@ -68,6 +69,6 @@ async function asyncParse(
 
 async function saveFile(file: fFile): Promise<string> {
   const id = randomUUID();
-  await promisify(fs.rename)(file.filepath, `./public/uploaded/${id}`);
+  await promisify(fs.rename)(file.filepath, `./uploaded/${id}`);
   return id;
 }
