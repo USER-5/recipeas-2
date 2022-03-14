@@ -15,9 +15,10 @@ import {
 } from "utils/converters/recipe";
 import { defined } from "utils/define";
 
-const prisma = new PrismaClient();
-
-export async function createRecipe(recipe: EagerRecipe): Promise<Recipe> {
+export async function createRecipe(
+  prisma: Pick<PrismaClient, "recipe" | "ingredient">,
+  recipe: EagerRecipe
+): Promise<Recipe> {
   const prismaRecipe = fullRecipeToPrismaCreate(recipe);
   // let the DB set this bad boi
   prismaRecipe.id = undefined;
@@ -32,13 +33,16 @@ export async function createRecipe(recipe: EagerRecipe): Promise<Recipe> {
 
   // insert the ingredients
   const associatedIngredients = associateIngredients(created, recipe);
-  await createIngredients(associatedIngredients);
+  await createIngredients(prisma, associatedIngredients);
 
   // we have at least some ingredients
   return created;
 }
 
-export async function createIngredients(ingredients: Ingredient[]) {
+export async function createIngredients(
+  prisma: Pick<PrismaClient, "ingredient">,
+  ingredients: Ingredient[]
+) {
   const prismaIngredients = ingredients.map(ingredientToPrismaCreate);
   if (
     ingredients.some(
@@ -53,7 +57,10 @@ export async function createIngredients(ingredients: Ingredient[]) {
   await prisma.ingredient.createMany({ data: prismaIngredients });
 }
 
-export async function updateRecipe(recipe: EagerRecipe): Promise<void> {
+export async function updateRecipe(
+  prisma: Pick<PrismaClient, "recipe" | "ingredient">,
+  recipe: EagerRecipe
+): Promise<void> {
   // request should contain a recipe to update
   const prismaRecipe = fullRecipeToPrismaUpdate(recipe);
 
@@ -81,7 +88,7 @@ export async function updateRecipe(recipe: EagerRecipe): Promise<void> {
   // insert the ingredients
   const associatedIngredients = associateIngredients(persistedRecipe, recipe);
   console.log(persistedRecipe);
-  await createIngredients(associatedIngredients);
+  await createIngredients(prisma, associatedIngredients);
 }
 
 /** Throws meaningful errors if the object is bad */

@@ -1,7 +1,5 @@
 import { PrismaClient } from "@prisma/client";
 import { NextApiRequest, NextApiResponse } from "next";
-import { fullRecipeToPrismaUpdate } from "utils/converters/recipe";
-import { defined } from "utils/define";
 import { createRecipe, updateRecipe } from "utils/serverFunctions/persist";
 
 const prisma = new PrismaClient();
@@ -25,7 +23,9 @@ export default async function handle(
 
 async function post(req: NextApiRequest, res: NextApiResponse<string>) {
   try {
-    const recipe = await createRecipe(JSON.parse(req.body));
+    const recipe = await prisma.$transaction(async (prisma) =>
+      createRecipe(prisma, JSON.parse(req.body))
+    );
     const id = recipe.id;
     res.json(id);
   } catch (e: any) {
@@ -48,7 +48,9 @@ async function del(req: NextApiRequest, res: NextApiResponse) {
 
 async function put(req: NextApiRequest, res: NextApiResponse) {
   try {
-    await updateRecipe(JSON.parse(req.body));
+    await prisma.$transaction(async (prisma) =>
+      updateRecipe(prisma, JSON.parse(req.body))
+    );
     res.status(200).end();
   } catch (e: any) {
     console.warn("Update Error: " + e);
