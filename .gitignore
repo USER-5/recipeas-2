@@ -1,5 +1,5 @@
 node_modules
-uploaded
+/uploaded
 .next
 .vscode
 # Keep environment variables out of version control
