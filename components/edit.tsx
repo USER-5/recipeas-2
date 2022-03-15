@@ -44,6 +44,7 @@ const Edit: FC<PropType> = (props) => {
       <Stepper active={active} onStepClick={setActive} breakpoint="sm">
         <Stepper.Step label="Basic Info">
           <TextInput
+            autoComplete="off"
             label="Title"
             required
             value={recipeData.title}
@@ -55,6 +56,7 @@ const Edit: FC<PropType> = (props) => {
             }}
           ></TextInput>
           <NumberInput
+            autoComplete="off"
             label="Servings"
             hideControls
             required
@@ -67,6 +69,7 @@ const Edit: FC<PropType> = (props) => {
             }}
           ></NumberInput>
           <NumberInput
+            autoComplete="off"
             label="Total Minutes"
             hideControls
             value={recipeData.totalMinutes as number}
@@ -78,6 +81,7 @@ const Edit: FC<PropType> = (props) => {
             }}
           ></NumberInput>
           <NumberInput
+            autoComplete="off"
             label="Hands-On Minutes"
             hideControls
             value={recipeData.handsOnMinutes as number}

@@ -62,6 +62,7 @@ const Ingredients: FC<Props> = ({ value, onChange }) => {
           onBlur={() => checkDelete(index)}
         >
           <TextInput
+            autoComplete="off"
             label="Name"
             name="ingredient_name"
             placeholder="Carrot"
@@ -71,6 +72,7 @@ const Ingredients: FC<Props> = ({ value, onChange }) => {
             }
           ></TextInput>
           <NumberInput
+            autoComplete="off"
             label="Amount"
             placeholder="2.5"
             precision={3}
@@ -86,6 +88,7 @@ const Ingredients: FC<Props> = ({ value, onChange }) => {
             }
           ></NumberInput>
           <TextInput
+            autoComplete="off"
             label="Unit"
             value={ingredient.unit}
             placeholder="Each"
@@ -94,6 +97,7 @@ const Ingredients: FC<Props> = ({ value, onChange }) => {
             }
           ></TextInput>
           <TextInput
+            autoComplete="off"
             label="Notes (Optional)"
             value={ingredient.notes}
             placeholder="Chopped"

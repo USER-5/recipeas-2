@@ -61,6 +61,7 @@ const EditMethod: FC<Props> = ({ steps, onStepsChange }) => {
             {step.index + 1}. {step.title || "No Title"}
           </h3>
           <TextInput
+            autoComplete="off"
             label="Step Title"
             value={step.title}
             onChange={(event) =>
@@ -68,6 +69,7 @@ const EditMethod: FC<Props> = ({ steps, onStepsChange }) => {
             }
           ></TextInput>
           <Textarea
+            autoComplete="off"
             label="Instructions"
             value={step.mainText}
             onChange={(event) =>
