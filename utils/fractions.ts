@@ -1,5 +1,5 @@
 const ALLOWED_DENOMINATORS = [1, 2, 3, 4, 6, 8];
-const LENIENCY = 0.01;
+const LENIENCY = 0.1;
 
 /**
  * Returns the best matching fraction, or the original number as a string
@@ -21,7 +21,9 @@ export function findFraction(input: number): string {
   // subtract whole part, and find remainder as fraction
   const wholePart = Math.floor(input);
   const remainder = input - wholePart;
-  const fractionPart = `${remainder * bestDenominator}\u2044${bestDenominator}`;
+  const fractionPart = `${Math.round(
+    remainder * bestDenominator
+  )}\u2044${bestDenominator}`;
 
   // format
   if (wholePart) {

@@ -4,8 +4,13 @@ import {
   getDefaultIngredient,
   ingredientEffectivelyNull,
 } from "models/eagerRecipe";
-import React, { FC } from "react";
+import React, { FC, useState } from "react";
 import { makeDefinedNum } from "utils/define";
+import { ingredientFormat } from "utils/ingredientFormat";
+import {
+  InterpretedIngredient,
+  interpretIngredient,
+} from "utils/ingredientInterpreter";
 
 type Props = {
   value?: Ingredient[];
@@ -52,9 +57,26 @@ const Ingredients: FC<Props> = ({ value, onChange }) => {
       onChange(modifiedIngr);
     }
   };
+
+  const [xxxState, xxxSetState] = useState<InterpretedIngredient>({
+    name: "",
+    amount: 0,
+    unit: "",
+    notes: "",
+  });
+
+  const xxx = (val: string) => {
+    xxxSetState(() => interpretIngredient(val));
+  };
+
   return (
     <div className="mt-6 pt-3">
       <h4>Ingredients</h4>
+      <TextInput
+        onChange={(event) => xxx(event.target.value)}
+        label="magic"
+      ></TextInput>
+      <p>We interpreted: {ingredientFormat(xxxState)}</p>
       {[...ingredients, blankIngredient].map((ingredient, index) => (
         <div
           key={ingredient.id}
